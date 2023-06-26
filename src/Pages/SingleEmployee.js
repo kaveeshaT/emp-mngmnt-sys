@@ -34,7 +34,8 @@ const EmployeeDetails = () => {
       });
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDeafult();
     if (empNo) {
       getEmployee();
     } else {
