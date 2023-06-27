@@ -122,7 +122,7 @@ const UpdateEmployee = () => {
       errors.basicSalary = "Basic Salary should be a valid number.";
     }
 
-    if (!employee.isActive === "") {
+    if (employee.isActive === "") {
       errors.isActive = "Is Active field is required.";
     }
 

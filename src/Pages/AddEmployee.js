@@ -109,7 +109,7 @@ const AddEmployeeForm = () => {
       errors.basicSalary = "Basic Salary should be a valid number.";
     }
 
-    if (data.isActive === "") {
+    if (typeof data.isActive === "undefined") {
       errors.isActive = "Is Active field is required.";
     }
 
@@ -247,7 +247,7 @@ const AddEmployeeForm = () => {
             <option value="true">True</option>
             <option value="false">False</option>
           </select>
-          {errors.isActive && <span>{errors.isActive}</span>}
+          {errors.isActive && <p>{errors.isActive}</p>}
         </div>
         <button type="submit">Submit</button>
       </form>
