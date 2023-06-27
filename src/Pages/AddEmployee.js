@@ -43,9 +43,16 @@ const AddEmployeeForm = () => {
           resetForm();
         })
         .catch((error) => {
-          swal("Oops!", "Employee added Unsuccessfully!", "error");
-          console.error("Error adding employee:", error.response.data.errors);
+          if (error.response && error.response.data.errors) {
+            swal("Oops!", "Mandatory fields are required.", "error");
+            setErrors(error.response.data.errors);
+          } else {
+            swal("Oops!", "Employee added unsuccessfully!", "error");
+            console.error("Error adding employee:", error);
+          }
         });
+    } else {
+      swal("Oops!", "Please fill in all mandatory fields.", "error");
     }
   };
 
@@ -121,7 +128,7 @@ const AddEmployeeForm = () => {
     setDateOfJoin("");
     setDateOfBirth("");
     setBasicSalary("");
-    setIsActive(false);
+    setIsActive("");
   };
 
   return (

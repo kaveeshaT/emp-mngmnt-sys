@@ -4,6 +4,7 @@ import swal from "sweetalert";
 
 const DeleteEmployee = () => {
   const [empNo, setEmpNo] = useState("");
+  const [invalidInput, setInvalidInput] = useState(false);
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -12,14 +13,39 @@ const DeleteEmployee = () => {
     axios
       .delete(endpoint)
       .then((response) => {
-        swal("Success!", "Employee deleted successfully!", "success");
+        swal({
+          title: "Are you sure?",
+          text: "Once deleted, you will not be able to recover this imaginary file!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete) {
+            swal("Poof! Your imaginary file has been deleted!", {
+              icon: "success",
+            });
+          } else {
+            swal("Your imaginary file is safe!");
+          }
+        });
+
         setEmpNo("");
       })
       .catch((error) => {
-        swal("Oops!", "Employee deletion unsuccessful!", "error");
         console.error(error);
+        swal("Oops!", "Employee deletion unsuccessful!", "error");
         setEmpNo("");
       });
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (empNo) {
+      handleDelete(e);
+    } else {
+      setInvalidInput(true);
+      swal("Oops!", "Enter Employee ID", "error");
+    }
   };
 
   return (
@@ -31,7 +57,7 @@ const DeleteEmployee = () => {
           onChange={(e) => setEmpNo(e.target.value)}
           placeholder="Enter Employee Number"
         />
-        <button onClick={handleDelete}>Delete</button>
+        <button onClick={handleClick}>Delete</button>
       </form>
     </div>
   );

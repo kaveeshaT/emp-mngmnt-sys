@@ -24,7 +24,7 @@ const EmployeeDetails = () => {
       })
       .catch((error) => {
         console.log(error);
-        swal("Oops!", error.message, "error");
+        swal("Oops!", "An error occurred!", "error");
       });
   };
 
@@ -34,6 +34,7 @@ const EmployeeDetails = () => {
       getEmployee();
     } else {
       setInvalidInput(true);
+      swal("Oops!", "Enter Employee ID", "error");
     }
   };
 

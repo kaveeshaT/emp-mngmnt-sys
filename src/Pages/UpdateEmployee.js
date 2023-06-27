@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
 
@@ -128,6 +128,16 @@ const UpdateEmployee = () => {
 
     setErrors(errors);
     return valid;
+  };
+
+  const isValidDate = (dateString) => {
+    const pattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!pattern.test(dateString)) {
+      return false;
+    }
+    const date = new Date(dateString);
+    const isValidDate = !isNaN(date.getTime());
+    return isValidDate;
   };
 
   return (
