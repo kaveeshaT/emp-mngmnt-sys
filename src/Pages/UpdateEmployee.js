@@ -130,16 +130,6 @@ const UpdateEmployee = () => {
     return valid;
   };
 
-  const isValidDate = (dateString) => {
-    const pattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!pattern.test(dateString)) {
-      return false;
-    }
-    const date = new Date(dateString);
-    const isValidDate = !isNaN(date.getTime());
-    return isValidDate;
-  };
-
   return (
     <div className="app">
       <form id="updateEmp" onSubmit={handleSubmit}>
