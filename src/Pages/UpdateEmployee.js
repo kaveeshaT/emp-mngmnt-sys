@@ -3,7 +3,7 @@ import axios from "axios";
 import swal from "sweetalert";
 
 const UpdateEmployee = () => {
-  const [employee, setEmployee] = useState({
+  const initialState = {
     empNo: "",
     empName: "",
     empAddressLine1: "",
@@ -14,11 +14,11 @@ const UpdateEmployee = () => {
     dateOfBirth: "",
     basicSalary: "",
     isActive: "",
-  });
+  };
 
+  const [employee, setEmployee] = useState(initialState);
   const [errors, setErrors] = useState({});
 
-  // Function to retrieve existing data when empNo is entered
   const fetchData = async () => {
     axios
       .get(`/api/v1.0/Employee/${employee.empNo}`)
@@ -32,7 +32,7 @@ const UpdateEmployee = () => {
       })
       .catch((error) => {
         console.log(error);
-        swal("Oops!", error, "error");
+        swal("Oops!", "Enter Employee ID", "error");
       });
   };
 
@@ -59,10 +59,11 @@ const UpdateEmployee = () => {
         .put(`/api/v1.0/Employee`, employee)
         .then(() => {
           swal("Success!", "Employee data updated successfully!", "success");
+          setEmployee(initialState);
         })
         .catch((error) => {
           console.log(error);
-          swal("Oops!", error, "error");
+          swal("Oops!", "Mandatory Fields are Required", "error");
         });
     }
   };
@@ -73,93 +74,60 @@ const UpdateEmployee = () => {
 
     if (!employee.empNo) {
       errors.empNo = "Employee Number is required.";
-      valid = false;
     } else if (employee.empNo.length > 15) {
       errors.empNo = "Employee Number should be at most 15 characters.";
-      valid = false;
     }
 
     if (!employee.empName) {
       errors.empName = "Employee Name is required.";
-      valid = false;
     } else if (employee.empName.length > 50) {
       errors.empName = "Employee Name should be at most 50 characters.";
-      valid = false;
     }
 
     if (!employee.empAddressLine1) {
       errors.empAddressLine1 = "Address Line 1 is required.";
-      valid = false;
     } else if (employee.empAddressLine1.length > 80) {
       errors.empAddressLine1 =
         "Address Line 1 should be at most 80 characters.";
-      valid = false;
     }
 
-    if (employee.empAddressLine2.length > 80) {
+    if (employee.empAddressLine2 && employee.empAddressLine2.length > 80) {
       errors.empAddressLine2 =
         "Address Line 2 should be at most 80 characters.";
-      valid = false;
     }
 
-    if (employee.empAddressLine3.length > 80) {
+    if (employee.empAddressLine3 && employee.empAddressLine3.length > 80) {
       errors.empAddressLine3 =
         "Address Line 3 should be at most 80 characters.";
-      valid = false;
     }
 
     if (!employee.departmentCode) {
       errors.departmentCode = "Department Code is required.";
-      valid = false;
     } else if (employee.departmentCode.length > 15) {
       errors.departmentCode =
         "Department Code should be at most 15 characters.";
-      valid = false;
     }
 
     if (!employee.dateOfJoin) {
       errors.dateOfJoin = "Date of Join is required.";
-      valid = false;
-    } else if (!isValidDate(employee.dateOfJoin)) {
-      errors.dateOfJoin =
-        "Date of Join should be a valid date with format yyyy-MM-dd.";
-      valid = false;
     }
 
     if (!employee.dateOfBirth) {
       errors.dateOfBirth = "Date of Birth is required.";
-      valid = false;
-    } else if (!isValidDate(employee.dateOfBirth)) {
-      errors.dateOfBirth =
-        "Date of Birth should be a valid date with format yyyy-MM-dd.";
-      valid = false;
     }
 
     if (!employee.basicSalary) {
       errors.basicSalary = "Basic Salary is required.";
-      valid = false;
     } else if (isNaN(employee.basicSalary)) {
       errors.basicSalary = "Basic Salary should be a valid number.";
-      valid = false;
     }
 
-    if (!employee.isActive) {
+    if (!employee.isActive === "") {
       errors.isActive = "Is Active field is required.";
-      valid = false;
     }
 
     setErrors(errors);
     return valid;
-  };
-
-  const isValidDate = (dateString) => {
-    const pattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!pattern.test(dateString)) {
-      return false;
-    }
-    const date = new Date(dateString);
-    const isValidDate = !isNaN(date.getTime());
-    return isValidDate;
   };
 
   return (
@@ -174,12 +142,11 @@ const UpdateEmployee = () => {
             value={employee.empNo}
             onChange={handleChange}
           />
-          {errors.empNo && <span className="error">{errors.empNo}</span>}
+          {errors.empNo && <p>{errors.empNo}</p>}
           <button type="button" onClick={fetchData}>
             Get
           </button>
         </div>
-
         <br />
         <div>
           <label>Employee Name:</label>
@@ -190,7 +157,7 @@ const UpdateEmployee = () => {
             value={employee.empName}
             onChange={handleChange}
           />
-          {errors.empName && <span className="error">{errors.empName}</span>}
+          {errors.empName && <p>{errors.empName}</p>}
         </div>
         <div>
           <label>Address Line 1:</label>
@@ -201,9 +168,7 @@ const UpdateEmployee = () => {
             value={employee.empAddressLine1}
             onChange={handleChange}
           />
-          {errors.empAddressLine1 && (
-            <span className="error">{errors.empAddressLine1}</span>
-          )}
+          {errors.empAddressLine1 && <p>{errors.empAddressLine1}</p>}
         </div>
         <div>
           <label>Address Line 2:</label>
@@ -214,9 +179,7 @@ const UpdateEmployee = () => {
             value={employee.empAddressLine2}
             onChange={handleChange}
           />
-          {errors.empAddressLine2 && (
-            <span className="error">{errors.empAddressLine2}</span>
-          )}
+          {errors.empAddressLine2 && <p>{errors.empAddressLine2}</p>}
         </div>
         <div>
           <label>Address Line 3:</label>
@@ -227,9 +190,7 @@ const UpdateEmployee = () => {
             value={employee.empAddressLine3}
             onChange={handleChange}
           />
-          {errors.empAddressLine3 && (
-            <span className="error">{errors.empAddressLine3}</span>
-          )}
+          {errors.empAddressLine3 && <p>{errors.empAddressLine3}</p>}
         </div>
         <div>
           <label>Department Code:</label>
@@ -240,9 +201,7 @@ const UpdateEmployee = () => {
             value={employee.departmentCode}
             onChange={handleChange}
           />
-          {errors.departmentCode && (
-            <span className="error">{errors.departmentCode}</span>
-          )}
+          {errors.departmentCode && <p>{errors.departmentCode}</p>}
         </div>
 
         <div>
@@ -254,9 +213,7 @@ const UpdateEmployee = () => {
             value={employee.dateOfJoin}
             onChange={handleChange}
           />
-          {errors.dateOfJoin && (
-            <span className="error">{errors.dateOfJoin}</span>
-          )}
+          {errors.dateOfJoin && <p>{errors.dateOfJoin}</p>}
         </div>
         <div>
           <label>Date of Birth:</label>
@@ -267,9 +224,7 @@ const UpdateEmployee = () => {
             value={employee.dateOfBirth}
             onChange={handleChange}
           />
-          {errors.dateOfBirth && (
-            <span className="error">{errors.dateOfBirth}</span>
-          )}
+          {errors.dateOfBirth && <p>{errors.dateOfBirth}</p>}
         </div>
         <div>
           <label>Basic Salary:</label>
@@ -280,9 +235,7 @@ const UpdateEmployee = () => {
             value={employee.basicSalary}
             onChange={handleChange}
           />
-          {errors.basicSalary && (
-            <span className="error">{errors.basicSalary}</span>
-          )}
+          {errors.basicSalary && <p>{errors.basicSalary}</p>}
         </div>
 
         <div>
@@ -296,7 +249,7 @@ const UpdateEmployee = () => {
             <option value="true">True</option>
             <option value="false">False</option>
           </select>
-          {errors.isActive && <span className="error">{errors.isActive}</span>}
+          {errors.isActive && <p>{errors.isActive}</p>}
         </div>
         <br />
         <button type="submit">Update</button>

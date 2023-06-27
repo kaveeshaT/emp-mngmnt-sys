@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Modal from "react-modal";
+import swal from "sweetalert";
 
 const EmployeeDetails = () => {
   const [employee, setEmployee] = useState(null);
@@ -13,29 +13,23 @@ const EmployeeDetails = () => {
 
   const getEmployee = () => {
     axios
-      .get(`/api/v1.0/Employee/${empNo}`, {
-        headers: {
-          Authorization: "?D(G+KbPeSgVkYp3s6v9y$B&E)H@McQf",
-        },
-      })
+      .get(`/api/v1.0/Employee/${empNo}`)
       .then((response) => {
-        if (response.data) {
-          setEmployee(response.data);
-          setInvalidInput(false);
+        if (response.data.empNo === null) {
+          swal("Oops!", "Record not found!", "error");
         } else {
-          setEmployee(null);
-          setInvalidInput(true);
+          const existingEmployee = response.data;
+          setEmployee(existingEmployee);
         }
       })
       .catch((error) => {
         console.log(error);
-        setEmployee(null);
-        setInvalidInput(true);
+        swal("Oops!", error.message, "error");
       });
   };
 
   const handleClick = (e) => {
-    e.preventDeafult();
+    e.preventDefault();
     if (empNo) {
       getEmployee();
     } else {
@@ -43,7 +37,8 @@ const EmployeeDetails = () => {
     }
   };
 
-  const clearData = () => {
+  const clearData = (e) => {
+    e.preventDefault();
     setEmployee(null);
     setEmpNo("");
     setInvalidInput(false);
@@ -61,55 +56,48 @@ const EmployeeDetails = () => {
         <button onClick={handleClick}>Retrieve</button>
         <button onClick={clearData}>Clear</button>
       </form>
-      {invalidInput && (
-        <Modal isOpen={true} onRequestClose={() => setInvalidInput(false)}>
-          <h2>Invalid Employee Number</h2>
-          <p>The entered employee number is invalid or not found.</p>
-          <button onClick={() => setInvalidInput(false)}>Close</button>
-        </Modal>
-      )}
 
       {employee && (
         <table>
           <tbody>
             <tr>
-              <th>empNo</th>
+              <th>Emp.No:</th>
               <td>{employee.empNo}</td>
             </tr>
             <tr>
-              <th>empName</th>
+              <th>Emp.Name:</th>
               <td>{employee.empName}</td>
             </tr>
             <tr>
-              <th>empAddressLine1</th>
+              <th>Emp.Add.Line 1:</th>
               <td>{employee.empAddressLine1}</td>
             </tr>
             <tr>
-              <th>empAddressLine2</th>
+              <th>Emp.Add.Line 2:</th>
               <td>{employee.empAddressLine2}</td>
             </tr>
             <tr>
-              <th>empAddressLine3</th>
+              <th>Emp.Add.Line 3:</th>
               <td>{employee.empAddressLine3}</td>
             </tr>
             <tr>
-              <th>departmentCode</th>
+              <th>Department Code:</th>
               <td>{employee.departmentCode}</td>
             </tr>
             <tr>
-              <th>dateOfJoin</th>
+              <th>Date Of Join:</th>
               <td>{employee.dateOfJoin}</td>
             </tr>
             <tr>
-              <th>dateOfBirth</th>
+              <th>Date Of Birth:</th>
               <td>{employee.dateOfBirth}</td>
             </tr>
             <tr>
-              <th>basicSalary</th>
+              <th>Basic Salary:</th>
               <td>{employee.basicSalary}</td>
             </tr>
             <tr>
-              <th>isActive</th>
+              <th>Active Status:</th>
               <td>{employee.isActive ? "Active" : "Inactive"}</td>
             </tr>
           </tbody>
