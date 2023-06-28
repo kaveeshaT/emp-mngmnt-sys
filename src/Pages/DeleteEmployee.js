@@ -9,33 +9,33 @@ const DeleteEmployee = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
 
-    const endpoint = `/api/v1.0/Employee/${empNo}`;
-    axios
-      .delete(endpoint)
-      .then((response) => {
-        swal({
-          title: "Are you sure?",
-          text: "Once deleted, you will not be able to recover this imaginary file!",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        }).then((willDelete) => {
-          if (willDelete) {
-            swal("Poof! Your imaginary file has been deleted!", {
-              icon: "success",
-            });
-          } else {
-            swal("Your imaginary file is safe!");
-          }
-        });
-
-        setEmpNo("");
-      })
-      .catch((error) => {
-        console.error(error);
-        swal("Oops!", "Employee deletion unsuccessful!", "error");
-        setEmpNo("");
-      });
+    // Show the confirmation dialog
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        // User confirmed deletion
+        const endpoint = `/api/v1.0/Employee/${empNo}`;
+        axios
+          .delete(endpoint)
+          .then((response) => {
+            swal("Success!", "Employee deleted successfully!", "success");
+            setEmpNo("");
+          })
+          .catch((error) => {
+            swal("Oops!", "Employee deletion unsuccessful!", "error");
+            console.error(error);
+            setEmpNo("");
+          });
+      } else {
+        // User canceled deletion
+        swal("Your imaginary file is safe!");
+      }
+    });
   };
 
   const handleClick = (e) => {

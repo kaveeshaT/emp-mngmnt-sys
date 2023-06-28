@@ -42,7 +42,11 @@ const EmployeeDetails = () => {
     e.preventDefault();
     setEmployee(null);
     setEmpNo("");
-    setInvalidInput(false);
+  };
+
+  const handleClose = () => {
+    setEmployee(null);
+    setEmpNo("");
   };
 
   return (
@@ -59,50 +63,55 @@ const EmployeeDetails = () => {
       </form>
 
       {employee && (
-        <table>
-          <tbody>
-            <tr>
-              <th>Emp.No:</th>
-              <td>{employee.empNo}</td>
-            </tr>
-            <tr>
-              <th>Emp.Name:</th>
-              <td>{employee.empName}</td>
-            </tr>
-            <tr>
-              <th>Emp.Add.Line 1:</th>
-              <td>{employee.empAddressLine1}</td>
-            </tr>
-            <tr>
-              <th>Emp.Add.Line 2:</th>
-              <td>{employee.empAddressLine2}</td>
-            </tr>
-            <tr>
-              <th>Emp.Add.Line 3:</th>
-              <td>{employee.empAddressLine3}</td>
-            </tr>
-            <tr>
-              <th>Department Code:</th>
-              <td>{employee.departmentCode}</td>
-            </tr>
-            <tr>
-              <th>Date Of Join:</th>
-              <td>{employee.dateOfJoin}</td>
-            </tr>
-            <tr>
-              <th>Date Of Birth:</th>
-              <td>{employee.dateOfBirth}</td>
-            </tr>
-            <tr>
-              <th>Basic Salary:</th>
-              <td>{employee.basicSalary}</td>
-            </tr>
-            <tr>
-              <th>Active Status:</th>
-              <td>{employee.isActive ? "Active" : "Inactive"}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <th>Emp.No:</th>
+                <td>{employee.empNo}</td>
+              </tr>
+              <tr>
+                <th>Emp.Name:</th>
+                <td>{employee.empName}</td>
+              </tr>
+              <tr>
+                <th>Emp.Add.Line 1:</th>
+                <td>{employee.empAddressLine1}</td>
+              </tr>
+              <tr>
+                <th>Emp.Add.Line 2:</th>
+                <td>{employee.empAddressLine2}</td>
+              </tr>
+              <tr>
+                <th>Emp.Add.Line 3:</th>
+                <td>{employee.empAddressLine3}</td>
+              </tr>
+              <tr>
+                <th>Department Code:</th>
+                <td>{employee.departmentCode}</td>
+              </tr>
+              <tr>
+                <th>Date Of Join:</th>
+                <td>{employee.dateOfJoin}</td>
+              </tr>
+              <tr>
+                <th>Date Of Birth:</th>
+                <td>{employee.dateOfBirth}</td>
+              </tr>
+              <tr>
+                <th>Basic Salary:</th>
+                <td>{employee.basicSalary}</td>
+              </tr>
+              <tr>
+                <th>Active Status:</th>
+                <td>{employee.isActive ? "Active" : "Inactive"}</td>
+              </tr>
+              <button onClick={handleClose} className="close-button">
+                Close
+              </button>
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
