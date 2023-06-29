@@ -24,7 +24,7 @@ const DepartmentTable = () => {
   };
 
   return (
-    <div>
+    <div className="departments-wrapper">
       <h1 className="departments-heading">Departments</h1>
       <table>
         <thead>

@@ -26,7 +26,7 @@ const EmployeeTable = () => {
   };
 
   return (
-    <div>
+    <div className="employee-wrapper">
       <h1 className="employee-table-heading">Employee Table</h1>
       <table>
         <thead>
